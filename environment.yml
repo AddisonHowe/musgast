@@ -1,0 +1,23 @@
+name: musgast
+channels:
+  - defaults
+  - bioconda
+dependencies:
+  - python=3.8
+  - torchdiffeq=0.2
+  - pytorch=1.11
+  - seaborn=0.11
+  - scvi-tools=0.15
+  - scipy=1.8
+  - scikit-learn=1.1
+  - scanpy=1.9
+  - pandas=1.4
+  - numpy=1.22
+  - anndata=0.8
+  - matplotlib=3.5
+  - scvelo=0.2
+  - pip
+  - pip:
+    - scib
+    - scgen==2.1
+    - unitvelo==0.1
