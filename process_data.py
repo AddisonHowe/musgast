@@ -38,16 +38,12 @@ parser.add_argument('--gene_list', type=str, nargs='+', default=GENE_LIST_DEFAUL
 args = parser.parse_args()
 
 # Housekeeping
-datdir = args.datdir
-outdir = args.outdir
-
-data_in_fname = args.fname_in  #"gast_data_full.h5ad"
-data_out_fname = args.fname_out  #"gast_data_full_processed.h5ad"
-
-gene_list = args.gene_list if args.gene_list else GENE_LIST_DEFAULT
+input_data = args.input_data
+output_data = args.output_data
+gene_list = args.gene_list
 
 # Load data
-adata = scv.read("{0}/{1}".format(datdir, data_in_fname))
+adata = scv.read(input_data)
 
 # Subsample
 np.random.seed(1)
@@ -76,7 +72,7 @@ adata.obs['exp_time'] = np.array([float(t[1:]) for t in adata.obs['stage']])
 adata.obs['exp_time'] = adata.obs['exp_time']/adata.obs['exp_time'].max()
 
 # Filter low count genes
-scv.pp.filter_genes(adata, min_shared_counts=10, retain_genes=GENE_LIST)
+scv.pp.filter_genes(adata, min_shared_counts=10, retain_genes=gene_list)
 gc.collect()
 
 # Apply LatentVelo cleaning
@@ -87,4 +83,4 @@ gc.collect()
 adata.obsm['X_umap'] = adata.obsm['umap'].to_numpy()
 
 # Write output data
-adata.write_h5ad("{0}/{1}".format(datdir, data_out_fname))
+adata.write_h5ad(output_data)
