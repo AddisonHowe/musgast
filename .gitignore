@@ -2,6 +2,8 @@
 data/*
 notebooks/*
 
+.Rhistory
+
 .DS_Store
 **/.DS_Store
 
