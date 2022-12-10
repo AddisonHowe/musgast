@@ -4,8 +4,10 @@ analysis_script.py
 Analyze processed data.
 
 Command Line Arguments:
-	input_data: path to input data file.
+	input_data: path to input data file containing processed gene counts.
+	input_latent_data: path to input data file containing latent space info.
 	output_data: path to write output data.
+	model_outdir: path to directory in which to save model parameters.
 
 Results:
 	Trained model parameters saved in directory <model_outdir>. May overwrite.
@@ -22,10 +24,10 @@ import gc
 # Parse arguments
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-i', '--input_data', default="./data/latent_data.h5ad")
-parser.add_argument('-l', '--input_latent_data', default="./data/latent_data.h5ad")
-parser.add_argument('-o', '--output_data', default="./data/latent_data.h5ad")
-parser.add_argument('-m', '--model_outdir', default="./data/model")
+parser.add_argument('-i', '--input_data', required=True)
+parser.add_argument('-l', '--input_latent_data', required=True)
+parser.add_argument('-o', '--output_data', required=True)
+parser.add_argument('-m', '--model_outdir', required=True)
 
 args = parser.parse_args()
 
