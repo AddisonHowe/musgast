@@ -31,8 +31,8 @@ GENE_LIST_DEFAULT = [
 # Parse arguments
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-i', '--input_data', default="./data/unprocessed_data.h5ad")
-parser.add_argument('-o', '--output_data', default="./data/processed_data.h5ad")
+parser.add_argument('-i', '--input_data', required=True)
+parser.add_argument('-o', '--output_data', required=True)
 parser.add_argument('--gene_list', type=str, nargs='+', default=GENE_LIST_DEFAULT)
 
 args = parser.parse_args()
