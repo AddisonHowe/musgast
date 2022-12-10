@@ -2,6 +2,9 @@
 data/*
 notebooks/*
 
+jobs/
+logs/
+
 .Rhistory
 
 .DS_Store
