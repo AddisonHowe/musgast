@@ -6,7 +6,7 @@ Process downloaded data.
 Command Line Arguments:
 	input_data: path to input data file.
 	output_data: path to write output data.
-	gene_list: list of genes that should be kept regardless of cleaning process.
+	gene_list: list of genes to be kept regardless of cleaning.
 
 Results:
 	Trained model parameters saved in directory <model_outdir>. May overwrite.
