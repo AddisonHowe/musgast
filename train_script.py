@@ -7,24 +7,25 @@ Command Line Arguments:
 	input_data: path to input data file.
 	output_data: path to write output data.
 	model_outdir: path to directory in which to save model parameters.
+    (optional) epochs: number of epochs to train.
 
 Results:
 	Trained model parameters saved in directory <model_outdir>. May overwrite.
-	Latent data saved to file <output_data> if h5ad format.
+	Latent data saved to file <output_data> in h5ad format.
 """
 
-import latentvelo as ltv
-import numpy as np
-import matplotlib.pyplot as plt
+import os
+import argparse
 import scvelo as scv
-import scanpy
+import latentvelo as ltv
 
 # Parse arguments
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-i', '--input_data', default="./data/data_processed.h5ad")
-parser.add_argument('-o', '--output_data', default="./data/latent_data.h5ad")
-parser.add_argument('-m', '--model_outdir', default="./data/model")
+parser.add_argument('-i', '--input_data', required=True)
+parser.add_argument('-o', '--output_data', required=True)
+parser.add_argument('-m', '--model_outdir', required=True)
+parser.add_argument('-e', '--epochs', type=int, default=50)
 
 args = parser.parse_args()
 
@@ -32,6 +33,7 @@ args = parser.parse_args()
 data_in = args.input_data  # "gast_data_full_processed.h5ad"
 data_out = args.output_data
 model_outdir = args.model_outdir  #"gast_full_model"
+epochs = args.epochs
 
 # Load processed data
 adata = scv.read(data_in)
@@ -47,7 +49,7 @@ model = ltv.models.AnnotVAE(observed=2000, latent_dim=70, zr_dim=6, h_dim=7,
 # Train the model
 epochs, val_ae, val_traj = ltv.train_anvi(
 	model, adata, 
-	epochs=50, 
+	epochs=epochs, 
 	batch_size=1000, 
     name=model_outdir, 
     grad_clip=10, 

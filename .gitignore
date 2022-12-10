@@ -1,6 +1,7 @@
 
 data/*
 notebooks/*
+out/*
 
 jobs/
 logs/
