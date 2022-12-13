@@ -14,6 +14,7 @@ Results:
 """
 
 import argparse 
+import anndata
 import latentvelo as ltv
 import numpy as np
 import scvelo as scv
@@ -43,14 +44,14 @@ output_data = args.output_data
 gene_list = args.gene_list
 
 # Load data
-adata = scv.read(input_data)
+adata = anndata.read_h5ad(input_data)
+
+# Change index to SYMBOL instead of ENSEMBL for splicing purposes
+adata.var.set_index('SYMBOL', inplace=True)
 
 # Subsample
 np.random.seed(1)
 adata = adata[np.random.choice(adata.shape[0], size=30000, replace=False)]
-
-# Change index to SYMBOL instead of ENSEMBL for splicing purposes
-adata.var.index = adata.var['SYMBOL']
 
 # Remove cells with stage "mixed_gastrulation"
 adata = adata[adata.obs['stage'] != 'mixed_gastrulation']
@@ -81,6 +82,10 @@ gc.collect()
 
 # Convert umap data from dataframe to numpy array and rename
 adata.obsm['X_umap'] = adata.obsm['umap'].to_numpy()
+
+for gname in gene_list:
+    is_present = gname.lower() in adata.index.str.lower().values
+    print(f"{gname} in processed data: {is_present}")
 
 # Write output data
 adata.write_h5ad(output_data)
