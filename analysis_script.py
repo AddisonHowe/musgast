@@ -3,6 +3,9 @@ analysis_script.py
 
 Analyze processed data.
 
+Adapted from LatentVelo by Spencer Farrell.  See Gastrulation notebook
+in https://github.com/Spencerfar/LatentVelo/tree/main/paper_notebooks
+
 Command Line Arguments:
 	input_data: path to input data file containing processed gene counts.
 	input_latent_data: path to input data file containing latent space info.
@@ -59,16 +62,6 @@ scv.tl.velocity_graph(latent_adata, vkey='spliced_velocity')
 # Add new colors to dataframes
 latent_adata.uns['celltype_names_colors'] = COLOR_MAP
 adata.uns['celltype_names_colors'] = COLOR_MAP
-
-print(adata[(adata.obs['celltype_names'] == 'Endothelium')].obs.index)
-print(adata[(adata.obs['celltype_names'] == 'Erythroid1')].obs.index)
-print(adata[(adata.obs['celltype_names'] == 'Gut')].obs.index)
-print(adata[(adata.obs['celltype_names'] == 'Allantois')].obs.index)
-print(adata[(adata.obs['celltype_names'] == 'Mesenchyme')].obs.index)
-print(adata[(adata.obs['celltype_names'] == 'Forebrain/Midbrain/Hindbrain')].obs.index)
-
-# print(adata[['cell_70494', 'cell_130339', 'cell_19330', 'cell_93806', 'cell_116037',
-#        'cell_96434']])
 
 # Compute velocity embedding
 scv.pl.velocity_embedding_stream(
@@ -229,12 +222,12 @@ scv.pl.velocity_embedding_stream(
 
 # Trajectories
 cells = [
-	'cell_71068', #'cell_65328',
-	'cell_123777', #'cell_33062',
-	'cell_19760', #'cell_23583',
-	'cell_95759', #'cell_117901',
-	'cell_118985', #'cell_138449',
-	'cell_97853', #'cell_70231'
+	'cell_71068',
+	'cell_123777',
+	'cell_19760',
+	'cell_95759',
+	'cell_118985',
+	'cell_97853',
 ]
 cells = [adata.obs.index.get_loc(c) for c in cells]
 
