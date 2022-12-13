@@ -84,7 +84,7 @@ gc.collect()
 adata.obsm['X_umap'] = adata.obsm['umap'].to_numpy()
 
 for gname in gene_list:
-    is_present = gname.lower() in adata.index.str.lower().values
+    is_present = gname.lower() in adata.var.index.str.lower().values
     print(f"{gname} in processed data: {is_present}")
 
 # Write output data
