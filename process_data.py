@@ -72,11 +72,11 @@ adata.obs['exp_time'] = np.array([float(t[1:]) for t in adata.obs['stage']])
 adata.obs['exp_time'] = adata.obs['exp_time']/adata.obs['exp_time'].max()
 
 # Filter low count genes
-scv.pp.filter_genes(adata, min_shared_counts=10, retain_genes=gene_list)
+scv.pp.filter_genes(adata, min_shared_counts=20, retain_genes=gene_list)
 gc.collect()
 
 # Apply LatentVelo cleaning
-ltv.utils.anvi_clean_recipe(adata, batch_key='sequencing.batch', celltype_key='celltype', n_top_genes=2000)
+ltv.utils.anvi_clean_recipe(adata, batch_key='sequencing.batch', celltype_key='celltype')
 gc.collect()
 
 # Convert umap data from dataframe to numpy array and rename
