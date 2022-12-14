@@ -2,6 +2,7 @@
 data/*
 notebooks/*
 out/*
+.idea/
 
 jobs/
 logs/
