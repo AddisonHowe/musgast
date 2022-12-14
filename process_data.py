@@ -35,6 +35,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input_data', required=True)
 parser.add_argument('-o', '--output_data', required=True)
 parser.add_argument('--gene_list', type=str, nargs='+', default=GENE_LIST_DEFAULT)
+parser.add_argument('--sample', type=int, default=30000)
 
 args = parser.parse_args()
 
@@ -42,6 +43,7 @@ args = parser.parse_args()
 input_data = args.input_data
 output_data = args.output_data
 gene_list = args.gene_list
+sample_size = args.sample
 
 # Load data
 adata = anndata.read_h5ad(input_data)
@@ -51,13 +53,16 @@ adata.var.set_index('SYMBOL', inplace=True)
 
 # Subsample
 np.random.seed(1)
-adata = adata[np.random.choice(adata.shape[0], size=30000, replace=False)]
+if sample_size > 0:
+    adata = adata[np.random.choice(adata.shape[0], 
+                                   size=sample_size, replace=False)]
 
 # Remove cells with stage "mixed_gastrulation"
 adata = adata[adata.obs['stage'] != 'mixed_gastrulation']
 
 # Remove Extraembryonic cells
-adata = adata[~np.isin(adata.obs['celltype'], ['ExE ectoderm','ExE endoderm','ExE mesoderm'])]
+adata = adata[~np.isin(adata.obs['celltype'], 
+                       ['ExE ectoderm','ExE endoderm','ExE mesoderm'])]
 
 # Rename "un/spliced_counts" to "un/spliced"
 adata.layers['spliced'] = adata.layers['spliced_counts']
